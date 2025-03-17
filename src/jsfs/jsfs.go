@@ -3,6 +3,7 @@ package jsfs
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 type Htmlfile struct {
@@ -22,12 +23,13 @@ func CheckPage(hf *Htmlfile) {
 }
 
 func checkCSS(hf *Htmlfile) {
-	cssfiles, _ := os.ReadDir("static/css")
-	if len(cssfiles) == 0 {
+	cssfiles, err := os.ReadDir("static/css")
+	filename := strings.Split(hf.Name, ".")
+	if len(cssfiles) == 0 || err != nil {
 		fmt.Println("[FAILED | OPTIONAL]: STATIC FOLDER NOT FOUND OR CSS FILES NOT FOUND")
 	} else {
 		for _, file := range cssfiles {
-			if file.Name() == fmt.Sprintf("%v.css", hf.Name) {
+			if file.Name() == fmt.Sprintf("%v.css", filename[0]) {
 				hf.Css = file.Name()
 				fmt.Println("[OK]: CSS FILE FOUNDED")
 				break
@@ -37,12 +39,13 @@ func checkCSS(hf *Htmlfile) {
 }
 
 func checkJS(hf *Htmlfile) {
-	jsfiles, _ := os.ReadDir("static/js")
-	if len(jsfiles) == 0 {
+	jsfiles, err := os.ReadDir("static/js")
+	filename := strings.Split(hf.Name, ".")
+	if len(jsfiles) == 0 || err != nil {
 		fmt.Println("[FAILED | OPTIONAL]: STATIC FOLDER NOT FOUND OR JS FILES NOT FOUND")
 	} else {
 		for _, file := range jsfiles {
-			if file.Name() == fmt.Sprintf("%v.js", hf.Name) {
+			if file.Name() == fmt.Sprintf("%v.js", filename[0]) {
 				hf.Js = file.Name()
 				fmt.Println("[OK]: JS FILE FOUNDED")
 				break

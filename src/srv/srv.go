@@ -6,7 +6,6 @@ import (
 )
 
 func index(w http.ResponseWriter, r *http.Request) {
-	indexpage := jsfs.Htmlfile{Name: "index.html"}
 	container := jsfs.ReadHTML(&indexpage)
 	w.Write(container)
 }
@@ -21,5 +20,6 @@ func DefaultServerSetup(sm *http.ServeMux) *http.Server {
 
 func StartServer() {
 	TheSrv := DefaultServerSetup(http.NewServeMux())
+	jsfs.CheckPage(&indexpage)
 	TheSrv.ListenAndServe()
 }
